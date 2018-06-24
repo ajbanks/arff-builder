@@ -19,13 +19,15 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, IOException, Exception {
 //        System.out.println("Working Directory = " +
 //              System.getProperty("user.dir"));
-        String action = "tackle";
+        String[] actions ={"tackle", "passes", "innaccurate-pass", "dribble 1", "dribble 2"};
         String[] tagIDs = {"0B3A", "921E", "59AD"} ;
-        PosLogToArff pos = new PosLogToArff();
-        pos.readFile("06052018", action, tagIDs);
-        String filePath = action + "_output.txt";
-        ARFFBuilder arff = new ARFFBuilder(filePath, false);
-        arff.createArffFile();
+        for (String action : actions) {
+            PosLogToArff pos = new PosLogToArff();
+            pos.readFile("06052018", action, tagIDs);
+            String filePath = action + "_output.txt";
+            ARFFBuilder arff = new ARFFBuilder(filePath, false);
+            arff.createArffFile();
+        }
         //Experiments();
     }
     
