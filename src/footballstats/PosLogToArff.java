@@ -440,7 +440,7 @@ public class PosLogToArff {
 //                    if (j == 0)
 //                        output += positionsForLine(actionLinesParts[k]);
 //                    else
-                    if(!actionLinesParts[k].contains("-1")){
+                    if(!actionLinesParts[k].contains("?")){
                         for(String id : playerIDs){
                             if(actionLinesParts[k].contains(id)){
                                 hm.put(id, actionLinesParts[k]);
