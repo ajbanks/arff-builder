@@ -12,7 +12,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DecimalFormat;
+//import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -31,20 +31,20 @@ public class PosLogToArff {
     int timeCount = 0;
     int numPlayers = 0;
     String[] playerIDs;
-    double[][] lastKnownPositions;
+    String [][] lastKnownPositions;
     double lastTime = 0.000;
     int actionTimeCount = 0;
     int actionCount = 0;
     boolean hasStarted = false;
     
-    public void readFile(String logDate, String action, String tagIDs[]) throws FileNotFoundException, IOException{
+    public void readFile(String logDate, String action, String tagIDs[], boolean replaceWithUnknown) throws FileNotFoundException, IOException{
         //get start and end time of each instance of an action from csv file
         //and put it in actionTimes array
         readCSVFile(logDate, action);
 //        for (int i = 0; i < actionTimes.length; i++){
 //            System.out.println(i + ": " + actionTimes[i]);
 //        }
-        initialiseLastPositions(tagIDs);
+        initialiseLastPositions(tagIDs, replaceWithUnknown);
         
         //read log file
         int numActions = actionTimes.length/2;
@@ -214,7 +214,8 @@ public class PosLogToArff {
         for (int i = 0; i < numPlayers; i++){
             if (output.contains(playerIDs[i])){
                 for (int j = 0; j < 3; j++){
-                    lastKnownPositions[i][j] = -1; 
+
+                    lastKnownPositions[i][j] = "-1";
                 }
             }
         }
@@ -342,13 +343,18 @@ public class PosLogToArff {
         }
     }
     
-    private void initialiseLastPositions(String[] tagIDs){
+    private void initialiseLastPositions(String[] tagIDs, boolean replaceWithUnknown){
         this.playerIDs = tagIDs;
         numPlayers = tagIDs.length;
-        lastKnownPositions = new double[tagIDs.length][3];
+        lastKnownPositions = new String[tagIDs.length][3];
         for (int i = 0; i < lastKnownPositions.length; i++){
                 for (int j = 0; j < lastKnownPositions[i].length; j++)
-                    lastKnownPositions[i][j] = -1; 
+                    if (replaceWithUnknown){
+                        lastKnownPositions[i][j] = "?";
+                    }
+                    else {
+                        lastKnownPositions[i][j] = "-1";
+                    }
         } 
     }
     
