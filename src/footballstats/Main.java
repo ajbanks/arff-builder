@@ -23,11 +23,12 @@ public class Main {
         String[] tagIDs = {"0B3A", "921E", "59AD"} ;
         for (String action : actions) {
             PosLogToArff pos = new PosLogToArff();
-            pos.readFile("06052018", action, tagIDs, true);
-            String filePath = action + "_output.txt";
-            ARFFBuilder arff = new ARFFBuilder(filePath, false);
-            arff.createArffFile();
+            pos.readFile("06052018", action, tagIDs, true, false);
+           // String filePath = action + "_output.txt";
+
         }
+      //  ARFFBuilder arff = new ARFFBuilder("combined_output.txt", false);
+        //arff.createArffFile();
         //Experiments();
     }
     

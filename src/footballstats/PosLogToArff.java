@@ -37,7 +37,7 @@ public class PosLogToArff {
     int actionCount = 0;
     boolean hasStarted = false;
     
-    public void readFile(String logDate, String action, String tagIDs[], boolean replaceWithUnknown) throws FileNotFoundException, IOException{
+    public void readFile(String logDate, String action, String tagIDs[], boolean replaceWithUnknown, boolean useLastKnownPos) throws FileNotFoundException, IOException{
         //get start and end time of each instance of an action from csv file
         //and put it in actionTimes array
         readCSVFile(logDate, action);
@@ -185,7 +185,7 @@ public class PosLogToArff {
 //        System.out.println("number of times went by: " + actionTimeCount);
         //System.out.println("what is startrecording" +startRecording);
         
-        createOutput(action);
+        createOutput(action, useLastKnownPos);
     }
     
     private String addMissingPositions(String output){
@@ -424,7 +424,7 @@ public class PosLogToArff {
     }
 
     
-    public void createOutput(String action) throws IOException{
+    public void createOutput(String action, boolean useLastKnownPos) throws IOException{
         String actionNum = action + "_";
         List<String> lines = new ArrayList<>();
         String output;
@@ -451,7 +451,7 @@ public class PosLogToArff {
                     else {
                         boolean replaced = false;
                         for(String id : playerIDs) {
-                            if (actionLinesParts[k].contains(id) && hm.get(id) != null) {
+                            if (actionLinesParts[k].contains(id) && hm.get(id) != null && useLastKnownPos) {
                                 output += "," + positionsForLine(hm.get(id));
                                 replaced = true;
                             }

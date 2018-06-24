@@ -23582,7 +23582,7 @@ pass start
  1) 59AD[1.81,3.46,0.69,100,xA4]
 pass end
 
-inaccurate_pass start
+inaccurateP start
 [002773.980 INF] loc_data: 2
  0) 0B3A[0.83,4.35,0.87,0,xF8]
  1) 59AD[2.02,3.49,1.02,0,xFF]
@@ -30930,7 +30930,7 @@ inaccurate_pass start
 
 [002971.710 INF] loc_data: 1
  0) 0B3A[1.60,2.17,0.73,78,xB0]
-inaccurate_pass end
+inaccurateP end
 
 tackle start
 [003013.150 INF] loc_data: 3
@@ -51564,7 +51564,7 @@ dribble start
  2) 921E[0.84,2.89,0.88,50,x80]
 dribble end
 
-dribble 2 start
+dribble2 start
 [003675.560 INF] loc_data: 2
  0) 0B3A[0.97,1.71,0.86,50,xAF]
  1) 921E[0.59,2.89,0.30,50,xFF]
@@ -60242,4 +60242,4 @@ dribble 2 start
  0) 0B3A[1.12,4.41,1.20,50,xEF]
  1) 59AD[1.65,3.83,1.12,95,xD2]
  2) 921E[1.55,6.68,1.01,0,xE4]
-dribble 2 end
+dribble2 end
