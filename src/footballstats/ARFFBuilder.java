@@ -162,7 +162,8 @@ public class ARFFBuilder {
 				}
 				output = output + action;
 				//out.println(action + "\n");
-
+				//erase first comma.
+				output = output.replaceFirst(",", "");
 				out.println(output);
 
 
