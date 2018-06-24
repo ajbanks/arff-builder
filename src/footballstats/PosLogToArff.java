@@ -393,10 +393,6 @@ public class PosLogToArff {
         String actionNum = action + "_";
         List<String> lines = new ArrayList<>();
         String output;
-
-        String tag1 = "59AD";
-        String tag2 = "921E";
-        String tag3 = "0B3A";
         for (int i = 0; i < actions.size(); i++){
             output = actionNum + i;
             lines.add(output);
@@ -460,8 +456,6 @@ public class PosLogToArff {
         return line.substring(openingBracketIndex+1, thirdCommaIndex);
         
         //get substring from opening bracket to thrid comma as this is the 
-        //z, y and z positions
-        
-        
+        //z, y and z positions      
     }
 }
