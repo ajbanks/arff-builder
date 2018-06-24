@@ -174,15 +174,15 @@ public class PosLogToArff {
             }
         }
         
-        for (int i = 0; i < actions.size(); i++){
-            System.out.println(i + ":");
-            for(int j = 0; j < actions.get(i).size(); j++)
-            System.out.println(actions.get(i).get(j));
-        }
-        System.out.println("number of actions in file: " + (actionTimes.length/2));
-        System.out.println("number of actions counted: " + actionCount);
-        System.out.println("number of times in file: " + actionTimes.length);
-        System.out.println("number of times went by: " + actionTimeCount);
+//        for (int i = 0; i < actions.size(); i++){
+//            System.out.println(i + ":");
+//            for(int j = 0; j < actions.get(i).size(); j++)
+//            System.out.println(actions.get(i).get(j));
+//        }
+//        System.out.println("number of actions in file: " + (actionTimes.length/2));
+//        System.out.println("number of actions counted: " + actionCount);
+//        System.out.println("number of times in file: " + actionTimes.length);
+//        System.out.println("number of times went by: " + actionTimeCount);
         //System.out.println("what is startrecording" +startRecording);
         
         createOutput(action);
@@ -207,7 +207,36 @@ public class PosLogToArff {
                 }
             }
         }
+        output = putTagsInCorrectOrder(output);
         return output;
+    }
+    
+    private String putTagsInCorrectOrder(String output){
+        //get each tag and its co ordinates
+        String[] parts = output.split(" & ");
+        for (int i = 0; i < parts.length; i++){
+            parts[i] = parts[i].trim();
+        }
+        
+        //put tags in correct order
+        String newOutput = "";
+        for (int i = 0; i < playerIDs.length; i++){
+            int indexOfID = -1;
+            for (int j = 0; j < parts.length; j++){
+                if (parts[j].contains(playerIDs[i])){
+                    indexOfID = j;
+                    break;
+                }
+                    
+            }
+            parts[indexOfID] = 0 + parts[indexOfID].substring(1);
+            
+            if (i != playerIDs.length-1)
+                newOutput += parts[indexOfID] + " & ";
+            else
+                newOutput += parts[indexOfID];
+        }
+        return newOutput;
     }
     
     private void updateLastPositions(String output){
@@ -399,10 +428,6 @@ public class PosLogToArff {
         String actionNum = action + "_";
         List<String> lines = new ArrayList<>();
         String output;
-
-        String tag1 = "59AD";
-        String tag2 = "921E";
-        String tag3 = "0B3A";
         for (int i = 0; i < actions.size(); i++){
             output = actionNum + i;
             lines.add(output);
@@ -466,8 +491,6 @@ public class PosLogToArff {
         return line.substring(openingBracketIndex+1, thirdCommaIndex);
         
         //get substring from opening bracket to thrid comma as this is the 
-        //z, y and z positions
-        
-        
+        //z, y and z positions      
     }
 }
