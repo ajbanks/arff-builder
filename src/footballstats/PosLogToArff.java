@@ -179,10 +179,10 @@ public class PosLogToArff {
 //            for(int j = 0; j < actions.get(i).size(); j++)
 //            System.out.println(actions.get(i).get(j));
 //        }
-//        System.out.println("number of actions in file: " + (actionTimes.length/2));
-//        System.out.println("number of actions counted: " + actionCount);
-//        System.out.println("number of times in file: " + actionTimes.length);
-//        System.out.println("number of times went by: " + actionTimeCount);
+        System.out.println("number of actions in file: " + (actionTimes.length/2));
+        System.out.println("number of actions counted: " + actionCount);
+        System.out.println("number of times in file: " + actionTimes.length);
+        System.out.println("number of times went by: " + actionTimeCount);
         //System.out.println("what is startrecording" +startRecording);
         
         createOutput(action, useLastKnownPos);

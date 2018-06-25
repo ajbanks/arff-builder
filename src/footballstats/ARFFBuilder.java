@@ -60,7 +60,7 @@ public class ARFFBuilder {
                 return "dribble";
         }
         if(text.toLowerCase().contains("inaccuratep")) {
-                return "inaccuratePass";
+                return "inaccuratep";
         }
         else return "";
     }
@@ -79,7 +79,7 @@ public class ARFFBuilder {
             beginning =  beginning + "\n@ATTRIBUTE position" + i + " NUMERIC";
         }
 
-        beginning =  beginning +"\n@ATTRIBUTE class        {pass,tackle,dribble,inaccuratePass}\n@data\n";
+        beginning =  beginning +"\n@ATTRIBUTE class        {pass,tackle,dribble,inaccuratep}\n@data\n";
         return beginning;
     }
 
