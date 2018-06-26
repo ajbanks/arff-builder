@@ -75,7 +75,7 @@ public class ARFFBuilder {
         beginning =  beginning +"% 2. Sources: \n%      (a) Creator: A.Joseph & N. Francis\n%\n";
         beginning =  beginning +"@RELATION Action";
 
-        for (int i = 0; i <= noAttributes; i++){
+        for (int i = 0; i < noAttributes - 1; i++){
             beginning =  beginning + "\n@ATTRIBUTE position" + i + " NUMERIC";
         }
 
