@@ -76,15 +76,12 @@ public class PosLogToArff {
             if(lineFromFile.contains(actionStart))
             {
                 startRecording = 1;
-                //System.out.println(lineFromFile);
                 lineFromFile = file.nextLine();
             }
             //if end of action set startRecording to 2
             if (lineFromFile.contains(actionEnd))
             {
-                //System.out.println("FOUND THE END");
                 startRecording = 2;
-                //System.out.println(lineFromFile);
                 break;
             }
             
@@ -93,8 +90,6 @@ public class PosLogToArff {
             if (startRecording == 1){               
                 //if the time is equal to the time in actionTimes then 
                 //it is either the beginnging of an instance of an action
-                //System.out.println("timess: " + time);
-                //System.out.println("actionTimeCount: " + actionTimes[actionTimeCount]);
                 if (actionTimes[actionTimeCount] == time){
                     //if an instance has already started then it is now
                     //the end of the instance and increase actionTimeCount
@@ -103,7 +98,6 @@ public class PosLogToArff {
                     if (hasStarted){
                         hasStarted = false;
                         actionTimeCount++;
-                        //System.out.println("END OF INSTANCE, time = " + time);
                     }
                     //else if an instance hasnt already started then it is now
                     //the beginning of an instance and increase actionTimeCount
@@ -112,18 +106,15 @@ public class PosLogToArff {
                     //to hold positios for this instance
                     else{
                         hasStarted  = true;
+                        //****************************************************************************************************
                         actions.add(new ArrayList<String>());
                         actionTimeCount++;
                         actionCount++;
-                        //System.out.println("START OF INSTANCE, time = " + time);
-                        //System.out.println(lineFromFile);
                     }
-                    //System.out.println("actiontime count: " + actionTimeCount);
                 }
                 //if an instance has started then add the lines for this 
                 //0.1 second to the ArrayList
                 if (hasStarted){
-                    //System.out.println(lineFromFile);
                     String line = lineFromFile;
                     //get next lines that are part of this 0.1 second
                     while (file.hasNextLine()){
@@ -268,12 +259,6 @@ public class PosLogToArff {
             lastTime = currentTime;
         //System.out.println("last time: " + lastTime + ", current time: " + currentTime);
         if (lastTime + 0.110 < currentTime){
-            //System.out.println("there was a time gap");
-            
-            //System.out.println(time);
-            //lastTime += 0.1;
-            //there has been a time gap so use last values by calling use last values
-            //if (hasStarted)
             addPositionsForMissingTimes(currentTime);
             //100 milliseconds has passed so increase time
             time = timeCount/10.0;
@@ -318,9 +303,6 @@ public class PosLogToArff {
     private void addPositionsForMissingTimes(double currentTime){
         //if the time is equal to the time in actionTimes then 
         //it is either the beginnging of an instance of an action
-        //System.out.println("is there a match");
-        //System.out.println("actionTimeCount: " + actionTimes[actionTimeCount]);
-        //System.out.println("time: " + time);
         if (actionTimes[actionTimeCount] == time){
             //System.out.println("match");
             //if an instance has already started then it is now
@@ -388,20 +370,20 @@ public class PosLogToArff {
     }
     
     public void readCSVFile(String logDate, String action) throws FileNotFoundException{
+        //load file with action times
         String fileName = action + ".csv";
         Scanner file = new Scanner(new File(fileName));
-        
+        //count number of lines
         int lines = 0;
-        //System.out.println("start");
         while (file.hasNextLine()) {
             lines++;
             file.nextLine();
         }
-            
-        //System.out.println("done");
+
+        //total number of times in the file
         actionTimes = new double[(lines-1)*2];
+
         int count = 0;
-        
         file = new Scanner(new File(fileName));
         String lineFromFile = file.nextLine();
         while (file.hasNextLine())
