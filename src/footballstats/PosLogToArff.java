@@ -36,6 +36,7 @@ public class PosLogToArff {
     int actionTimeCount = 0;
     int actionCount = 0;
     boolean hasStarted = false;
+    boolean makeStop = false;
     
     public void readFile(String logDate, String action, String tagIDs[], boolean replaceWithUnknown, boolean useLastKnownPos) throws FileNotFoundException, IOException{
         //get start and end time of each instance of an action from csv file
@@ -60,6 +61,7 @@ public class PosLogToArff {
         actionCount = 0;
         //this indicates whether an instance of an action has started
         hasStarted = false;
+        makeStop = false;
         //current line number
         int lineNumber = -1;
         //while the file has a next line and the end of the action hasnt been
@@ -96,7 +98,8 @@ public class PosLogToArff {
                     //to go to the next element in actionTimes (which will be
                     //the start of the next instance)
                     if (hasStarted){
-                        hasStarted = false;
+                        makeStop = true;
+                        //hasStarted = false;
                         actionTimeCount++;
                     }
                     //else if an instance hasnt already started then it is now
@@ -150,6 +153,10 @@ public class PosLogToArff {
                         startRecording = 2;
                         //System.out.println(lineFromFile);
                         break;
+                    }
+                    
+                    if (makeStop == true){
+                        hasStarted = false;
                     }
                 }
                 
@@ -310,7 +317,8 @@ public class PosLogToArff {
             //to go to the next element in actionTimes (which will be
             //the start of the next instance)
             if (hasStarted){
-                hasStarted = false;
+                makeStop = true;
+                //hasStarted = false;
                 actionTimeCount++;
                 //System.out.println("END OF INSTANCE, time = " + time);
             }
@@ -351,6 +359,10 @@ public class PosLogToArff {
             }
             actions.get(actionCount-1).add(output);
             //checkTimeGap(currentTime, actionCount, hasStarted);
+            
+            if (makeStop == true){
+                hasStarted = false;
+            }
         }
     }
     
