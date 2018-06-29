@@ -89,10 +89,11 @@ public class PosLogToArff {
             
             //if start of action has begun then get positions of each instance 
             //of an action and put it in actions ArrayList
-            if (startRecording == 1){               
+            if (startRecording == 1){              
                 //if the time is equal to the time in actionTimes then 
                 //it is either the beginnging of an instance of an action
                 if (actionTimes[actionTimeCount] == time){
+                    System.out.println(time);
                     //if an instance has already started then it is now
                     //the end of the instance and increase actionTimeCount
                     //to go to the next element in actionTimes (which will be
@@ -157,6 +158,7 @@ public class PosLogToArff {
                     
                     if (makeStop == true){
                         hasStarted = false;
+                        makeStop = false;
                     }
                 }
                 
@@ -177,11 +179,11 @@ public class PosLogToArff {
 //            for(int j = 0; j < actions.get(i).size(); j++)
 //            System.out.println(actions.get(i).get(j));
 //        }
-//        System.out.println("number of actions in file: " + (actionTimes.length/2));
-//        System.out.println("number of actions counted: " + actionCount);
-//        System.out.println("number of times in file: " + actionTimes.length);
-//        System.out.println("number of times went by: " + actionTimeCount);
-        //System.out.println("what is startrecording" +startRecording);
+        System.out.println("number of actions in file: " + (actionTimes.length/2));
+        System.out.println("number of actions counted: " + actionCount);
+        System.out.println("number of times in file: " + actionTimes.length);
+        System.out.println("number of times went by: " + actionTimeCount);
+        System.out.println("what is startrecording" +startRecording);
         
         createOutput(action, useLastKnownPos);
     }
@@ -361,6 +363,7 @@ public class PosLogToArff {
             //checkTimeGap(currentTime, actionCount, hasStarted);
             
             if (makeStop == true){
+                makeStop = false;
                 hasStarted = false;
             }
         }
