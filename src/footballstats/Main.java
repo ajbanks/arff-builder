@@ -18,18 +18,18 @@ public class Main {
      */
     public static void main(String[] args) throws FileNotFoundException, IOException, Exception {
 //        System.out.println("Working Directory = " +
-//              System.getProperty("user.dir"));
-        String[] actions ={"tackle", "pass", "inaccuratep", "dribble", "dribble2"};
+//             System.getProperty("user.dir"));
+        String[] actions ={"tackle", "pass", "inaccurateP", "dribble", "dribble2"};
         String[] tagIDs = {"0B3A", "921E", "59AD"} ;
 //        for (String action : actions) {
-//            PosLogToArff pos = new PosLogToArff();
-//            pos.readFile("06052018", action, tagIDs, false, true);
-//            String filePath = action + "_output.txt";
+//              PosLogToArff pos = new PosLogToArff();
+//              pos.readFile("06052018", action, tagIDs, false, true);
+//              //String filePath = action + "_output.txt";
 //
 //        }
-        ARFFBuilder arff = new ARFFBuilder("combined_output.txt", false);
+        ARFFBuilder arff = new ARFFBuilder("combined_output.txt", false, tagIDs.length);
         arff.createArffFile();
-        //Experiments();
+        //Experiments.runExperiments();
     }
     
 }

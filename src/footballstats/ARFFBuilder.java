@@ -13,12 +13,14 @@ public class ARFFBuilder {
     public int highestLength;
     public String input;
     boolean inputUnknownValues;
+    int noTags;
 
-    public ARFFBuilder (String inputFile, boolean inputUnknownValues) {
+    public ARFFBuilder (String inputFile, boolean inputUnknownValues, int noTags) {
         this.instanceMap = new HashMap<String, ArrayList<String>>();
         this.highestLength = 0;
         this.input = inputFile;
         this.inputUnknownValues = inputUnknownValues;
+        this.noTags = noTags;
     }
         
     /*public static void main(String[] args) {
@@ -60,7 +62,7 @@ public class ARFFBuilder {
                 return "dribble";
         }
         if(text.toLowerCase().contains("inaccuratep")) {
-                return "inaccuratep";
+                return "inaccuratePass";
         }
         else return "";
     }
@@ -79,7 +81,7 @@ public class ARFFBuilder {
             beginning =  beginning + "\n@ATTRIBUTE position" + i + " NUMERIC";
         }
 
-        beginning =  beginning +"\n@ATTRIBUTE class        {pass,tackle,dribble,inaccuratep}\n@data\n";
+        beginning =  beginning +"\n@ATTRIBUTE class        {pass,tackle,dribble,inaccuratePass}\n@data\n";
         return beginning;
     }
 
@@ -136,11 +138,18 @@ public class ARFFBuilder {
 				for (int i = 0; i < getHighestLength(); i++) {
 					if(count >= lineArray.length) {
 						if (!inputUnknownValues) {
-							output = output + lineArray[lineArray.length - 3] + ",";
-							output = output + lineArray[lineArray.length - 2] + ",";
-							output = output + lineArray[lineArray.length - 1];
-							count += 3;
-							i += 2;
+						    for(int t = noTags*3; t > 0; t--){
+
+                                output = output + lineArray[lineArray.length - t];
+
+                                if (t > 1){
+                                    output+=",";
+                                }
+
+                            }
+                            count += noTags*3;
+							i = count;
+
 						}
 						else {
 							output = output + "?";
