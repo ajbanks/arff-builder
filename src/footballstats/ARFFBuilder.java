@@ -88,20 +88,27 @@ public class ARFFBuilder {
     public void readInputFile() throws IOException {
         String line = "";
         String previousLine = "";
+        // reads input, output file. e.g pass_output
         BufferedReader br = new BufferedReader(new FileReader(input));
         while ((line = br.readLine()) != null) {
             // process the line.
             if (line.length() > 0) {
                 String firstLetter = line.substring(0, 1);
+                //look for lines beginning with '[' beacuase they contain position values
+                //remove all characters apart from position values
                 if (firstLetter.equals("[")) {
                     line = line.replace("]", "");
                     line = line.replace("[", "");
                     line = line.replace("\n", "");
+                    // work out number of posiitons to work out highest length
                     int length = line.split(",").length;
                     if (length > getHighestLength()) {
                         setHighestLength(length);
                     }
+                    //work out what action is being processed, e.g pass, or tackle
                     previousLine = actionFromString(previousLine);
+
+                    //add position values to hashmap
                     if (getInstanceMap().get(previousLine) != null) {
                         getInstanceMap().get(previousLine).add(line);
                     } else {
@@ -118,15 +125,19 @@ public class ARFFBuilder {
     }
 
 	public void  writeToFile( Map<String, ArrayList<String>> map, String beginning) throws IOException{
+
+        // create new arff file
 		FileWriter fw = new FileWriter(input + "_rtlsTrain.arff", true);
 		BufferedWriter bw = new BufferedWriter(fw);
 		PrintWriter out = new PrintWriter(bw);
+		// writes the beginning of arff to arff file
 		out.println(beginning);
 		Iterator it = map.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pair = (Map.Entry)it.next();
 			@SuppressWarnings("unchecked")
 			ArrayList<String> actionList = (ArrayList<String>) pair.getValue();
+			//get action
 			String action = (String) pair.getKey();
 			for (String positions : actionList) {
 				String output = "";
