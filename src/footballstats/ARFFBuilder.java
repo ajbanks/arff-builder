@@ -140,13 +140,9 @@ public class ARFFBuilder {
 			//get action
 			String action = (String) pair.getKey();
 			for (String positions : actionList) {
-                String test = constructInstanceFillEnd(positions, action);
-                String beg = constructInstanceFillBeginning(positions, action);
-				out.println(constructInstanceFillEnd(positions, action));
-				if (positions.split(",").length < getHighestLength()) {
-                    out.println(constructInstanceFillBeginning(positions, action));
-                }
 
+				out.println(constructInstanceFillEnd(positions, action));
+				out.println(constructInstanceFillBeginning(positions, action));
 
 			}
 		}
