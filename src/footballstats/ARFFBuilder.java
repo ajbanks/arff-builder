@@ -67,9 +67,9 @@ public class ARFFBuilder {
         else return "";
     }
 
-    public void createArffFile() throws IOException{
+    public void createArffFile(boolean addExtraPosToBeginning) throws IOException{
         readInputFile();
-        writeToFile(getInstanceMap(), arffBeginning(getHighestLength()));
+        writeToFile(getInstanceMap(), arffBeginning(getHighestLength()), addExtraPosToBeginning);
     }
 
     public String arffBeginning(int noAttributes){
@@ -124,7 +124,7 @@ public class ARFFBuilder {
         }
     }
 
-	public void  writeToFile( Map<String, ArrayList<String>> map, String beginning) throws IOException{
+	public void  writeToFile( Map<String, ArrayList<String>> map, String beginning, boolean addExtraPosToBeginning) throws IOException{
 
         // create new arff file
 		FileWriter fw = new FileWriter(input + "_rtlsTrain.arff", true);
@@ -147,6 +147,7 @@ public class ARFFBuilder {
 				//output = output +"<";
 				boolean beginAddingLastKnownPos = false;
 				for (int i = 0; i < getHighestLength(); i++) {
+				   
 					if(count >= lineArray.length) {
 						if (!inputUnknownValues) {
 						    for(int t = noTags*3; t > 0; t--){
@@ -168,6 +169,7 @@ public class ARFFBuilder {
 						}
 					}
 					else {
+					    //add line position value to output string
 						output = output + lineArray[i];
 						count++;
 					}
