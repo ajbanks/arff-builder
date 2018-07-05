@@ -140,47 +140,9 @@ public class ARFFBuilder {
 			//get action
 			String action = (String) pair.getKey();
 			for (String positions : actionList) {
-				String output = "";
-				String [] lineArray = positions.split(",");
-				int count = 0;
-				//output = output + "\n";
-				//output = output +"<";
-				boolean beginAddingLastKnownPos = false;
-				for (int i = 0; i < getHighestLength(); i++) {
-				   
-					if(count >= lineArray.length) {
-						if (!inputUnknownValues) {
-						    for(int t = noTags*3; t > 0; t--){
 
-                                output = output + lineArray[lineArray.length - t];
-
-                                if (t > 1){
-                                    output+=",";
-                                }
-
-                            }
-                            count += noTags*3;
-							i = count;
-
-						}
-						else {
-							output = output + "?";
-							count++;
-						}
-					}
-					else {
-					    //add line position value to output string
-						output = output + lineArray[i];
-						count++;
-					}
-					output = output +",";
-
-				}
-				output = output + action;
-				//out.println(action + "\n");
-				//erase first comma.
-				output = output.replaceFirst(",", "");
-				out.println(output);
+				out.println(constructInstance(positions, action, true));
+             //   out.println(constructInstance(positions, action, false));
 
 
 			}
@@ -191,4 +153,46 @@ public class ARFFBuilder {
             System.out.println("done");
 	}
 
+    public String constructInstance(String positions, String action, boolean addPosToBeginning){
+        String output = "";
+        String [] lineArray = positions.split(",");
+        int count = 0;
+        //output = output + "\n";
+        //output = output +"<";
+        boolean beginAddingLastKnownPos = false;
+        for (int i = 0; i < getHighestLength(); i++) {
+
+            if(count >= lineArray.length) {
+                if (!inputUnknownValues) {
+                    for(int t = noTags*3; t > 0; t--){
+
+                        output = output + lineArray[lineArray.length - t];
+
+                        if (t > 1){
+                            output+=",";
+                        }
+
+                    }
+                    count += noTags*3;
+                    i = count;
+
+                }
+                else {
+                    output = output + "?";
+                    count++;
+                }
+            }
+            else {
+                //add line position value to output string
+                output = output + lineArray[i];
+                count++;
+            }
+            output = output +",";
+
+        }
+        output = output + action;
+        //out.println(action + "\n");
+        //erase first comma.
+        return output.replaceFirst(",", "");
+    }
 }
