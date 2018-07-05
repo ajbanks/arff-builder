@@ -20,30 +20,22 @@ public class Main {
 //             System.getProperty("user.dir"));
           String[] actions = {"tackle", "pass", "inaccurateP", "dribble", "dribble2"};
           String[] tagIDs = {"0B3A", "921E", "59AD"};
-//        mergeOutputs(actions);
-//        for (String action : actions) {
-//              PosLogToArff pos = new PosLogToArff();
-//              pos.readFile("06052018", action, tagIDs, false, true);
-//              //String filePath = action + "_output.txt";
 //
-//        }
-        //ARFFBuilder arff = new ARFFBuilder("combined_output.txt", false, tagIDs.length);
-        //arff.createArffFile();
-        //Experiments.runExperiments();
-        /*for (String action : actions) {
+        for (String action : actions) {
               PosLogToArff pos = new PosLogToArff();
               pos.readFile("06052018", action, tagIDs, true, true);
               //String filePath = action + "_output.txt";
 
-        }*/
-         ARFFBuilder arff = new ARFFBuilder("combined_output.txt", false, tagIDs.length);
+        }
+          mergeOutputs(actions);
+         ARFFBuilder arff = new ARFFBuilder("1combined_output.txt", false, tagIDs.length);
          arff.createArffFile(true);
         // Experiments.runExperiments();
     }
 
     static void mergeOutputs(String[] actions) {
         String firstFile = actions[0] + "_output.txt";
-        String destination = "combined_output.txt";
+        String destination = "1combined_output.txt";
 
 
         try (FileWriter fw = new FileWriter(destination, true);
