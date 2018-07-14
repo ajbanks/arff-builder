@@ -142,7 +142,7 @@ public class ARFFBuilder {
 			for (String positions : actionList) {
 
 				out.println(constructInstanceFillEnd(positions, action));
-				if(positions.split(",").length < getHighestLength()) {
+				if(positions.split(",").length < getHighestLength() && addExtraPosToBeginning) {
                     out.println(constructInstanceFillBeginning(positions, action));
                 }
 

@@ -18,24 +18,25 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, IOException, Exception {
 //        System.out.println("Working Directory = " +
 //             System.getProperty("user.dir"));
-          String[] actions = {"tackle", "pass", "inaccurateP", "dribble", "dribble2"};
-          String[] tagIDs = {"0B3A", "921E", "59AD"};
+          //String[] actions = {"tackle", "pass", "inaccurateP", "dribble", "dribble2"};
+         // String[] tagIDs = {"0B3A", "921E", "59AD"};
+        String[] actions = {"pass2", "inaccurateP2"};
+        String[] tagIDs = {"41AA", "88B4", "CC03"};
+//        for (String action : actions) {
+//              PosLogToArff pos = new PosLogToArff();
+//              pos.readFile("06052018", action, tagIDs, false, true);
+//              //String filePath = action + "_output.txt";
 //
-        for (String action : actions) {
-              PosLogToArff pos = new PosLogToArff();
-              pos.readFile("06052018", action, tagIDs, true, true);
-              //String filePath = action + "_output.txt";
-
-        }
-          mergeOutputs(actions);
-         ARFFBuilder arff = new ARFFBuilder("1combined_output.txt", false, tagIDs.length);
-         arff.createArffFile(true);
+//        }
+//          mergeOutputs(actions);
+         ARFFBuilder arff = new ARFFBuilder("2combined_output.txt", false, tagIDs.length);
+         arff.createArffFile(false);
         // Experiments.runExperiments();
     }
 
     static void mergeOutputs(String[] actions) {
         String firstFile = actions[0] + "_output.txt";
-        String destination = "1combined_output.txt";
+        String destination = "newcombined_output.txt";
 
 
         try (FileWriter fw = new FileWriter(destination, true);
