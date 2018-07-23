@@ -19,9 +19,11 @@ public class Main {
 //        System.out.println("Working Directory = " +
 //             System.getProperty("user.dir"));
           //String[] actions = {"tackle", "pass", "inaccurateP", "dribble", "dribble2"};
-         // String[] tagIDs = {"0B3A", "921E", "59AD"};
-        String[] actions = {"pass2", "inaccurateP2"};
-        String[] tagIDs = {"41AA", "88B4", "CC03"};
+          String[] tagIDs = {"0B3A", "921E", "59AD"};
+
+        // these are the arrays for the second logfile / set of data
+        //String[] actions = {"pass2", "inaccurateP2"};
+        //String[] tagIDs = {"41AA", "88B4", "CC03"};
 //        for (String action : actions) {
 //              PosLogToArff pos = new PosLogToArff();
 //              pos.readFile("06052018", action, tagIDs, false, true);
@@ -30,8 +32,11 @@ public class Main {
 //        }
 //          mergeOutputs(actions);
          ARFFBuilder arff = new ARFFBuilder("2combined_output.txt", false, tagIDs.length);
-         arff.createArffFile(false);
+       //  arff.createArffFile(false);
         // Experiments.runExperiments();
+        LogSummarisation summarisation = new LogSummarisation(tagIDs, 0.90, arff);
+        summarisation.readOuputFile("tackle_output.txt");
+
     }
 
     static void mergeOutputs(String[] actions) {
