@@ -55,7 +55,7 @@ public class LogSummarisation {
 
     public void writeToFile (ArrayList<String> output, String input) throws IOException{
 
-        FileWriter fw = new FileWriter(input + "Possesion.txt", true);
+        FileWriter fw = new FileWriter(input + "Possesion2.txt", true);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter out = new PrintWriter(bw);
         for (String line : output) {
@@ -67,7 +67,7 @@ public class LogSummarisation {
     }
 
     public String whoHasPossession(String[] positions, String [] tags, String prevLine) {
-        int noPositions = (positions.length - 1) / 9;
+        int noPositions = (positions.length - 1) / 9; //first element is blank
         int count = 0;
         int lastIndex = 1;
         String output = "";
@@ -83,8 +83,10 @@ public class LogSummarisation {
                 Point first = new Point(Double.parseDouble(positions[lastIndex]), Double.parseDouble(positions[lastIndex + 1]));
                 Point second = new Point(Double.parseDouble(positions[lastIndex + 3]), Double.parseDouble(positions[lastIndex + 4]));
                 Point third = new Point(Double.parseDouble(positions[lastIndex + 6]), Double.parseDouble(positions[lastIndex + 7]));
-                Double firstAndSecondDist = second.distance(first);
-                Double thirdAndsecondDist = second.distance(third);
+               // Double firstAndSecondDist = second.distance(first);
+               // Double thirdAndsecondDist = second.distance(third);
+                Double firstAndSecondDist = first.distance(second);
+                Double thirdAndsecondDist = first.distance(third);
                 output = output + "," + whoHasMilisecondPos(firstAndSecondDist, thirdAndsecondDist);
             }
             lastIndex += 9;
@@ -101,7 +103,7 @@ public class LogSummarisation {
         if (secondDistance > possessionClassifyingValue && firstDistance > possessionClassifyingValue) {
             return "no-one";
         } else if (firstDistance < secondDistance) {
-            return tags[0];
+            return tags[1];
         } else {
             return tags[2];
         }
@@ -110,7 +112,7 @@ public class LogSummarisation {
     public Boolean areThereUnknownValues (String [] input, int firstIndex, int lastIndex){
         boolean result = false;
         for (int i = firstIndex; i <= lastIndex; i++){
-            if (input[i].contains("?")){
+            if (input[i].contains("?") || input[i].contains("-1")){
                 result = true;
                 break;
             };

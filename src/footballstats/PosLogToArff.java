@@ -50,7 +50,7 @@ public class PosLogToArff {
         //read log file
         int numActions = actionTimes.length/2;
         actions = new ArrayList<ArrayList<String>>(numActions);
-        String fileName = "poslog new tag 2.txt";
+        String fileName = "29 jul fixed.txt";
         Scanner file = new Scanner(new File(fileName));
         int startRecording = 0;
         String actionStart = action + " start";

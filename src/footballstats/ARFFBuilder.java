@@ -78,7 +78,8 @@ public class ARFFBuilder {
         beginning =  beginning +"@RELATION Action";
 
         for (int i = 0; i < noAttributes - 1; i++){
-            beginning =  beginning + "\n@ATTRIBUTE position" + i + " NUMERIC";
+           // beginning =  beginning + "\n@ATTRIBUTE position" + i + " NUMERIC";
+            beginning =  beginning + "\n@ATTRIBUTE possession" + i + "{no-one,88B4,CC03}";
         }
 
         beginning =  beginning +"\n@ATTRIBUTE class        {pass,tackle,dribble,inaccuratePass}\n@data\n";
@@ -165,7 +166,7 @@ public class ARFFBuilder {
 
             if(count >= lineArray.length) {
                 if (!inputUnknownValues) {
-                    for(int t = noTags*3; t > 0; t--){
+                    /*for(int t = noTags*3; t > 0; t--){
 
                         output = output + lineArray[lineArray.length - t];
 
@@ -175,8 +176,9 @@ public class ARFFBuilder {
 
                     }
                     count += noTags*3;
-                    i = count;
-
+                    i = count;*/
+                    output = output + lineArray[lineArray.length - 1];
+                    count++;
                 }
                 else {
                     output = output + "?";
