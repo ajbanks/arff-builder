@@ -18,32 +18,33 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, IOException, Exception {
 //        System.out.println("Working Directory = " +
 //             System.getProperty("user.dir"));
-        //  String[] actions = {"tackle", "pass", "inaccurateP", "dribble", "dribble2"};
-        String[] actions = {"tackle2"};
-     //     String[] tagIDs = {"0B3A", "921E", "59AD"};
+//          String[] actions = {"tackle", "pass", "inaccurateP", "dribble", "dribble2"};
+        String[] actions = {"combined_actions_251118"};
+        //     String[] tagIDs = {"0B3A", "921E", "59AD"};
 //921e = ball
         // these are the arrays for the second logfile / set of data
         String[] tagIDs = {"41AA", "88B4", "CC03"};  //41aa = ball
-       // String[] actions = {"pass2", "inaccurateP2"};
-        ARFFBuilder arff = new ARFFBuilder("tackle2_output.txtPossesion.txt", false, tagIDs.length);
+        // String[] actions = {"pass2", "inaccurateP2"};
+
         for (String action : actions) {
-              PosLogToArff pos = new PosLogToArff();
-               pos.readFile("06052018", action, tagIDs, false, true);
-//              //String filePath = action + "_output.txt";
-           LogSummarisation summarisation = new LogSummarisation(tagIDs, 0.5, arff);
-            summarisation.readOuputFile(action + "_output.txt");
-//
-       }
-       //   mergeOutputs(actions, "_output.txtPossesion2.txt");
+           // PosLogToArff pos = new PosLogToArff();
+            //pos.readFile("combined_actions_251118", action, tagIDs, false, true);
+////              //String filePath = action + "_output.txt";
+//               LogSummarisation summarisation = new LogSummarisation(tagIDs, 0.5, arff);
+//                summarisation.readOuputFile(action + "_output.txt");
+////
+//       }
+            //   mergeOutputs(actions, "_output.txtPossesion2.txt");
+            ARFFBuilder arff = new ARFFBuilder("combined_actions_251118_output.txt", false, tagIDs.length);
+            arff.createArffFile(true);
+            // Experiments.runExperiments();;
+            //  LogSummarisation summarisation = new LogSummarisation(tagIDs, 1.40, arff);
+            // summarisation.readOuputFile("pass_output.txt");
 
-     //    arff.createArffFile(false);
-        // Experiments.runExperiments();;
-      //  LogSummarisation summarisation = new LogSummarisation(tagIDs, 1.40, arff);
-       // summarisation.readOuputFile("pass_output.txt");
-
+        }
     }
 
-    static void mergeOutputs(String[] actions, String output) {
+    public static void mergeOutputs(String[] actions, String output) {
         String firstFile = actions[0] + output;
         String destination = "newcombinedPossesion2_output.txt";
 
