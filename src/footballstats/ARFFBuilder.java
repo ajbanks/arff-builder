@@ -1,5 +1,7 @@
 package footballstats;
 
+import stretching.LinearInterpolation;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,7 +128,8 @@ public class ARFFBuilder {
     }
 
 	public void  writeToFile( Map<String, ArrayList<String>> map, String beginning, boolean addExtraPosToBeginning) throws IOException{
-
+        //create new interpolation object
+        LinearInterpolation linearInter = new LinearInterpolation();
         // create new arff file
 		FileWriter fw = new FileWriter(input + "_rtlsTrain.arff", true);
 		BufferedWriter bw = new BufferedWriter(fw);
@@ -141,14 +144,25 @@ public class ARFFBuilder {
 			//get action
 			String action = (String) pair.getKey();
 			for (String positions : actionList) {
+               String [] posArray = positions.split(",");
+               double [] floatPosArray = new double [posArray.length]; // = posArray.length;
+                for (int i = 1; i < posArray.length; i++){
 
+                    floatPosArray[i] = Double.parseDouble(posArray[i]);
 
-				if(positions.split(",").length < getHighestLength() && addExtraPosToBeginning) {
-                    out.println(constructInstanceFillBeginning(positions, action));
                 }
-				else{
-				    out.println(constructInstanceFillEnd(positions, action));
-				}
+
+            double [] interpolatedPositions = LinearInterpolation.interpolateArray(floatPosArray, (getHighestLength()-1));
+
+            out.println(createOutputLineFromArray(interpolatedPositions, action));
+
+
+//				if(positions.split(",").length < getHighestLength() && addExtraPosToBeginning) {
+//                    out.println(constructInstanceFillBeginning(positions, action));
+//                }
+//				else{
+//				    out.println(constructInstanceFillEnd(positions, action));
+//				}
 
 			}
 		}
@@ -157,6 +171,17 @@ public class ARFFBuilder {
 		out.close();
             System.out.println("done");
 	}
+
+	public String createOutputLineFromArray(double [] array, String action){
+	    String output = "";
+        for (double a: array) {
+             output += String.valueOf(a);
+             output += ",";
+        }
+        output += action;
+
+        return output;
+    }
 
     public String constructInstanceFillEnd(String positions, String action){
         String output = "";

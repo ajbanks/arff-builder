@@ -1,6 +1,6 @@
 package footballstats;
 
-public class Point {
+public class  Point {
     // the coordinates of the point
     private double x;
     private double y;
