@@ -25,16 +25,16 @@ public class Main {
         // these are the arrays for the second logfile / set of data
         String[] tagIDs = {"41AA", "88B4", "CC03"};  //41aa = ball
         PosLogToArff pos = new PosLogToArff();
-        RealTimeProcessing rtp = new RealTimeProcessing(pos,tagIDs,"251118_2.txt", 10);
+        RealTimeProcessing rtp = new RealTimeProcessing(pos,tagIDs,"100219(2).txt", 10);
         // String[] actions = {"pass2", "inaccurateP2"};
 
- /*       for (String action : actions) {
-          //  PosLogToArff pos = new PosLogToArff();
-          //  pos.readFile("25118_1","pass_251118", tagIDs, false, true);
-////              //String filePath = action + "_output.txt";
-            ARFFBuilder arff = new ARFFBuilder("pass_251118_output no extension.txt", false, tagIDs.length);
-            LogSummarisation summarisation = new LogSummarisation(tagIDs, 5.0, arff);
-            summarisation.readOuputFile("combined_actions_251118_output.txt");*/
+ //       for (String action : actions) {
+//          PosLogToArff pos = new PosLogToArff();
+         // pos.readFile("090219","actions_090219_1", tagIDs, false, true);
+//////              //String filePath = action + "_output.txt";
+//            ARFFBuilder arff = new ARFFBuilder("pass_251118_output no extension.txt", false, tagIDs.length);
+//            LogSummarisation summarisation = new LogSummarisation(tagIDs, 5.0, arff);
+//            summarisation.readOuputFile("combined_actions_251118_output.txt");
 ////        liveClassification()
 //       }
             //   mergeOutputs(actions, "_output.txtPossesion2.txt");

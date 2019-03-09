@@ -50,7 +50,7 @@ public class PosLogToArff {
         //read log file
         int numActions = actionTimes.length/2;
         actions = new ArrayList<ArrayList<String>>(numActions);
-        String fileName = "logs/251118/251118_1.txt";
+        String fileName = "logs/090219/090219.txt";
         Scanner file = new Scanner(new File(fileName));
         int startRecording = 0;
         String actionStart = action + " start";
@@ -190,7 +190,7 @@ public class PosLogToArff {
     
     private String addMissingPositions(String output){
         String[] outputParts = output.split(" + ");
-        if (numPlayers != outputParts.length){
+        if (numPlayers != outputParts.length -1 ){
             int playersInOutput = outputParts.length;
             for (int i = 0; i < numPlayers; i++){
                 if (!output.contains(playerIDs[i])){
@@ -229,6 +229,8 @@ public class PosLogToArff {
                 }
                     
             }
+            if (indexOfID == -1)
+                System.out.println();
             parts[indexOfID] = 0 + parts[indexOfID].substring(1);
             
             if (i != playerIDs.length-1)
@@ -490,4 +492,165 @@ public class PosLogToArff {
         //get substring from opening bracket to thrid comma as this is the 
         //z, y and z positions      
     }
+
+    public boolean generateActionPositionsForLiveClassification(String logFileFilePath, String action, String tagIDs[], boolean replaceWithUnknown, boolean useLastKnownPos) throws FileNotFoundException, IOException{
+        //get start and end time of each instance of an action from csv file
+        //and put it in actionTimes array
+//        for (int i = 0; i < actionTimes.length; i++){
+//            System.out.println(i + ": " + actionTimes[i]);
+//        }
+        initialiseLastPositions(tagIDs, replaceWithUnknown);
+
+        //read log file
+        int numActions = actionTimes.length/2;
+        actions = new ArrayList<ArrayList<String>>(numActions);
+        String fileName = logFileFilePath;
+        Scanner file = new Scanner(new File(fileName));
+        int startRecording = 0;
+        String actionStart = action + " start";
+        String actionEnd = action + " end";
+        //the index currently at from the actionTime array eg pass 0 starts, pass 0 end, pass 1 start
+        actionTimeCount = 0;
+        //the action instance number eg pass 0, pass 1, pass 2
+        actionCount = 0;
+        //this indicates whether an instance of an action has started
+        hasStarted = false;
+        makeStop = false;
+        //current line number
+        int lineNumber = -1;
+        //while the file has a next line and the end of the action hasnt been
+        //reached yet
+
+        while (file.hasNextLine() && startRecording != 2 && actionTimeCount != actionTimes.length)
+        {
+            //System.out.println(time);
+            //get the next line and increment current line number
+            String lineFromFile = file.nextLine();
+            lineNumber++;
+
+            //if beginning of action set startRecording to 1
+            if(lineFromFile.contains(actionStart))
+            {
+                startRecording = 1;
+                lineFromFile = file.nextLine();
+            }
+            //if end of action set startRecording to 2
+            if (lineFromFile.contains(actionEnd))
+            {
+                startRecording = 2;
+                break;
+            }
+
+            //if start of action has begun then get positions of each instance
+            //of an action and put it in actions ArrayList
+            if (startRecording == 1){
+                //if the time is equal to the time in actionTimes then
+                //it is either the beginnging of an instance of an action
+                if (actionTimes[actionTimeCount] == time){
+                    System.out.println(time);
+                    //if an instance has already started then it is now
+                    //the end of the instance and increase actionTimeCount
+                    //to go to the next element in actionTimes (which will be
+                    //the start of the next instance)
+                    if (hasStarted){
+                        makeStop = true;
+                        //hasStarted = false;
+                        actionTimeCount++;
+                    }
+                    //else if an instance hasnt already started then it is now
+                    //the beginning of an instance and increase actionTimeCount
+                    //to go to the next element in actionTimes (which will be the
+                    //end of this instance). Add new ArrayList to actions
+                    //to hold positios for this instance
+                    else{
+                        hasStarted  = true;
+                        //****************************************************************************************************
+                        actions.add(new ArrayList<String>());
+                        actionTimeCount++;
+                        actionCount++;
+                    }
+                }
+                //if an instance has started then add the lines for this
+                //0.1 second to the ArrayList
+                if (hasStarted){
+                    String line = lineFromFile;
+                    //get next lines that are part of this 0.1 second
+                    while (file.hasNextLine()){
+                        lineFromFile = file.nextLine();
+                        if (lineFromFile.contains(actionEnd))
+                        {
+                            //System.out.println("FOUND THE END");
+                            startRecording = 2;
+                            //System.out.println(lineFromFile);
+                            break;
+                        }
+                        //System.out.println(lineFromFile);
+                        if (lineFromFile.length() != 0){
+                            line += " & " + lineFromFile;
+                        }
+                        else{
+                            //go back to previous line
+                            //goToPreviousLine(file, lineNumber);
+                            //exit loop
+                            break;
+                        }
+                        lineNumber++;
+                    }
+                    //add line to the current instance
+                    //updateLastPositions(line);
+                    line = addMissingPositions(line);
+                    actions.get(actionCount-1).add(line);
+                    //System.out.println("actioncount: " + (actionCount-1));
+                    lineFromFile = file.nextLine();
+                    if (lineFromFile.contains(actionEnd))
+                    {
+                        //System.out.println("FOUND THE END");
+                        startRecording = 2;
+                        //System.out.println(lineFromFile);
+                        break;
+                    }
+
+                    if (makeStop == true){
+                        hasStarted = false;
+                        makeStop = false;
+                    }
+                }
+
+                //100 milliseconds has passed so increase time
+                if (lineFromFile.length() > 0 && lineFromFile.charAt(0) == '['){
+                    time = timeCount/10.0;
+                    timeCount++;
+                    //lineFromFile = file.nextLine();
+                    while(actionTimeCount < actionTimes.length && checkTimeGap(lineFromFile)){
+
+                        if (actionTimeCount >= actionTimes.length) {
+                            System.out.println(time - 0.1);
+                            break;
+                        }
+                    }
+//                    if (actionTimeCount >= actionTimes.length) {
+//                        System.out.println(time - 0.1);
+//                    }
+                }
+            }
+        }
+
+//        for (int i = 0; i < actions.size(); i++){
+//            System.out.println(i + ":");
+//            for(int j = 0; j < actions.get(i).size(); j++)
+//            System.out.println(actions.get(i).get(j));
+//        }
+//        System.out.println("number of actions in file: " + (actionTimes.length/2));
+//        System.out.println("number of actions counted: " + actionCount);
+//        System.out.println("number of times in file: " + actionTimes.length);
+//        System.out.println("number of times went by: " + actionTimeCount);
+//        System.out.println("what is startrecording" +startRecording);
+
+        createOutput(action, useLastKnownPos);
+        if (actionCount > 0)
+            return true;
+        else
+            return false;
+    }
+
 }

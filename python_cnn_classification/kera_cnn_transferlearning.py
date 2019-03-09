@@ -4,6 +4,7 @@ from keras import models
 from keras.models import Model
 import matplotlib.pyplot as plt
 from keras.utils import to_categorical
+from keras.models import load_model
 import os
 from keras import layers
 from keras import optimizers
@@ -14,7 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os, shutil
 
-folder = 'python_cnn_classification/classify'
+folder = 'classify/'
 for the_file in os.listdir(folder):
     file_path = os.path.join(folder, the_file)
     try:
@@ -25,11 +26,12 @@ for the_file in os.listdir(folder):
         print(e)
 
 
-with open('combined_actions_251118.csv') as f:
+with open('../actions_090219_1.csv') as f:
     your_list = f.read().splitlines()
 
 #print(your_list)
 count = 0
+nVal = len(your_list)
 for item in your_list:
     if '[' in item:
         subItem = item[2:-1]
@@ -97,9 +99,13 @@ for item in your_list:
 
 
     count = count + 1
-
+model = load_model('cnn_first_model_080219.h5')
 validation_features = np.zeros(shape=(nVal, 7, 7, 512))
 validation_features = np.reshape(validation_features, (nVal, 7 * 7 * 512))
+predictions = model.predict_classes(validation_features)
 prob = model.predict(validation_features)
-print(prob)
+
+#for i in range(len(predictions)):
+print(str(predictions[0]) + "," + str(prob[0]), file=open("../cnn_output.txt", "w"))
+#print(prob)
 
